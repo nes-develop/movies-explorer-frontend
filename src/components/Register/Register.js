@@ -4,17 +4,26 @@ import useValidation from "../../hooks/useValidation";
 import Form from '../Form/Form';
 import './Register.css';
 import '../Form/Form.css';
+import { regexEmail } from '../../utils/constants';
 
 function Register(props) {
-  const { values, handleChange, errors, isValid, /* setValues, resetForm */ } =
+  const { values, handleChange, errors, isValid, resetForm } =
   useValidation({
     name: "",
     email: "",
     password: "",
   });
 
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    if (isValid) {
+      props.handleRegister(values.name, values.email, values.password);
+    }
+    resetForm();
+  }
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
         <h2 className="form__title">Добро пожаловать!</h2>
         <label className="form__input-label">
           Имя
@@ -25,7 +34,6 @@ function Register(props) {
             type="name"
             placeholder="Имя"
             autoComplete="name"
-            minLength={4}
             required
             onChange={handleChange}
             value={values.name || ""}
@@ -51,6 +59,7 @@ function Register(props) {
             required
             onChange={handleChange}
             value={values.email || ""}
+            pattern={regexEmail}
           />
           <span
             className={`form__input-error email-error ${
@@ -90,7 +99,7 @@ function Register(props) {
         </button>
         <p className="form__redirect">
           Уже зарегистрированы?  
-          <Link to='signin' className="form__redirect-link">
+          <Link to='/signin' className="form__redirect-link">
             Войти
           </Link>
         </p>

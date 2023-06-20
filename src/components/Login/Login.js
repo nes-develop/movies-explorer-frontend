@@ -4,17 +4,25 @@ import useValidation from "../../hooks/useValidation";
 import Form from '../Form/Form';
 import './Login.css';
 import '../Form/Form.css';
+import { regexEmail } from "../../utils/constants";
 
 function Login(props) {
-  const { values, handleChange, errors, isValid, /* setValues, resetForm */ } =
+  const { values, handleChange, errors, isValid, resetForm } =
   useValidation({
-    name: "",
     email: "",
     password: "",
   });
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (isValid) {
+      props.handleLogin(values.email, values.password);
+    }
+    resetForm();
+  }
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
         <h2 className="form__title">Рады видеть!</h2>
         <label className="form__input-label">
           E-mail
@@ -29,6 +37,7 @@ function Login(props) {
             required
             onChange={handleChange}
             value={values.email || ""}
+            pattern={regexEmail}
           />
           <span
             className={`form__input-error email-error ${
@@ -68,7 +77,7 @@ function Login(props) {
         </button>
         <p className="form__redirect">
         Ещё не зарегистрированы? 
-          <Link to='signup' className="form__redirect-link">
+          <Link to='/signup' className="form__redirect-link">
             Зарегистрироваться
           </Link>
         </p>

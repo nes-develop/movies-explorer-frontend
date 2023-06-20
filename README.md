@@ -52,3 +52,5 @@
 - Все изображения оптимизированы — в том числе и .svg.
 - Ссылка на макет: https://disk.yandex.ru/d/Tj5NgHQEOO9WiQ
 - Ссылка на Pull requests: 
+- Ссылка на frontend: http://nazarov.student.nomoredomains.monster/
+- Ссылка на backend: https://api.nazarov.student.nomoredomains.monster/
