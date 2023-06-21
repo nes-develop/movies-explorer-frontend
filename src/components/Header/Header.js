@@ -27,6 +27,7 @@ function Header(props) {
             </nav> 
           </header>
         ) : (
+        /* <Route path={['/movies', '/saved-movies', '/profile']}> */
           <header className='header'>
             <Link to="/" className='header__logo'><img alt="логотип проекта" src={logo}></img></Link>
             <nav className='header__menu'>
