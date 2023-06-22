@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
-import { SCREEN_L, SCREEN_S, CARDCOUNT_FOR_L, CARDCOUNT_FOR_M, CARDCOUNT_FOR_S } from '../../utils/constants';
+import { SCREEN_L, SCREEN_M, SCREEN_S, CARDCOUNT_FOR_XL, CARDCOUNT_FOR_L, CARDCOUNT_FOR_M, CARDCOUNT_FOR_S } from '../../utils/constants';
 
 function MoviesCardList(props) {
   const [shownCards, setShownCards] = useState(0);
@@ -11,33 +11,39 @@ function MoviesCardList(props) {
 
   function getshownCards() {
     const screensize = window.innerWidth;
-    if (screensize > SCREEN_L) {
+    if (screensize <= SCREEN_S) {
       setShownCards(CARDCOUNT_FOR_L);
     }
-    else if (screensize > SCREEN_S && screensize < SCREEN_L) {
+    else if (screensize < SCREEN_M && screensize > SCREEN_S) {
       setShownCards(CARDCOUNT_FOR_M);
     }
+    else if (screensize < SCREEN_L && screensize > SCREEN_M) {
+      setShownCards(CARDCOUNT_FOR_L);
+    }
     else {
-      setShownCards(CARDCOUNT_FOR_S);
-    } 
+      setShownCards(CARDCOUNT_FOR_XL);
+    }
   }
 
   function showMoreCards() {
     const screensize = window.innerWidth;
-    if (screensize > SCREEN_L) {
-      setShownCards(shownCards + 3);
-    }
-    else if (screensize > SCREEN_S && screensize < SCREEN_L) {
+    if (screensize <= SCREEN_S) {
       setShownCards(shownCards + 2);
     }
+    else if (screensize < SCREEN_M && screensize > SCREEN_S) {
+      setShownCards(shownCards + 2);
+    }
+    else if (screensize < SCREEN_L && screensize > SCREEN_M) {
+      setShownCards(shownCards + 3);
+    }
     else {
-      setShownCards(shownCards + 5);
-    }   
+      setShownCards(shownCards + 3);
+    }
   }
 
   function getSavedMovieCard(savedMovies, card) {
     return savedMovies.find((savedMovie) => savedMovie.movieId === card.id);
-  }  
+  }
 
   useEffect(() => {
     getshownCards();
@@ -52,11 +58,11 @@ function MoviesCardList(props) {
   return (
     <div className="moviescardlist">
       {props.isLoading && <Preloader />}
-      {props.isNotFoundError ? <div className='searchform-error'>Ничего не найдено</ div> : ''} 
+      {props.isNotFoundError ? <div className='searchform-error'>Ничего не найдено</ div> : ''}
       {props.isQueryError ? <div className='searchform-error'>Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз</ div> : ''}
       {!props.isLoading && !props.isQueryError && !props.isNotFoundError && (
         <>
-          {pathname === '/movies' ? (         
+          {pathname === '/movies' ? (
             <>
               <ul className="moviescardlist__ul">
                 {props.cards.slice(0, shownCards).map((card) => (
@@ -69,7 +75,7 @@ function MoviesCardList(props) {
                     saved={getSavedMovieCard(props.savedMovies, card)}
                     cards={props.cards}
                     card={card}
-                    isRequestError={props.isRequestError} 
+                    isRequestError={props.isRequestError}
                     requestErrorText={props.requestErrorText}
                   />
                 ))}
@@ -78,7 +84,7 @@ function MoviesCardList(props) {
                 <button className="moviescardlist__button" onClick={showMoreCards}>
                   Ещё
                 </button>
-                ) : (
+              ) : (
                 ''
               )}
             </>
@@ -94,11 +100,11 @@ function MoviesCardList(props) {
                   saved={getSavedMovieCard(props.savedMovies, card)}
                   cards={props.cards}
                   card={card}
-                  isRequestError={props.isRequestError} 
+                  isRequestError={props.isRequestError}
                   requestErrorText={props.requestErrorText}
                 />
               ))}
-          </ul>
+            </ul>
           )}
         </>
       )}
