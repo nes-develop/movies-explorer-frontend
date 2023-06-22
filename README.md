@@ -51,3 +51,6 @@
 - В разных частях проекта есть переиспользуемые блоки;
 - Все изображения оптимизированы — в том числе и .svg.
 - Ссылка на макет: https://disk.yandex.ru/d/Tj5NgHQEOO9WiQ
+- Ссылка на Pull requests: https://github.com/nes-develop/movies-explorer-frontend/pull/2
+- Ссылка на frontend: http://nazarov.student.nomoredomains.monster/
+- Ссылка на backend: https://api.nazarov.student.nomoredomains.monster/
